@@ -1,81 +1,120 @@
 import { motion } from "framer-motion";
 
 const footerLinks = {
-  Product: ["Features", "Modules", "Pricing", "Enterprise", "Changelog"],
-  Resources: ["Documentation", "Tutorials", "Blog", "AI News", "Community"],
-  Company: ["About", "Careers", "Press", "Partners", "Contact"],
-  Legal: ["Privacy", "Terms", "Cookie Policy", "Accessibility"],
+  Learn: ["Modules", "Projects", "Quizzes", "Study Guides"],
+  Resources: ["Documentation", "Updates", "Community", "API"],
+  Company: ["About", "Careers", "Blog", "Contact"],
+  Legal: ["Privacy", "Terms", "Cookies"],
+};
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.05, delayChildren: 0.1 }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 10 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.3 }
+  }
 };
 
 export function Footer() {
   return (
     <footer className="border-t border-border/50 bg-card/30">
       <div className="section-container py-16">
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 lg:gap-12">
+        <motion.div 
+          className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 lg:gap-12"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+          variants={containerVariants}
+        >
           {/* Brand Column */}
-          <div className="col-span-2 md:col-span-4 lg:col-span-1 mb-8 lg:mb-0">
-            <a href="/" className="flex items-center gap-2 mb-4">
-              <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center shadow-lg shadow-primary/30">
+          <motion.div 
+            className="col-span-2 md:col-span-4 lg:col-span-1 mb-8 lg:mb-0"
+            variants={itemVariants}
+          >
+            <a href="/" className="flex items-center gap-2 mb-4 group">
+              <motion.div 
+                className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center shadow-lg shadow-primary/30"
+                whileHover={{ scale: 1.1, rotate: 5 }}
+              >
                 <span className="text-primary-foreground font-bold text-lg">V</span>
-              </div>
+              </motion.div>
               <span className="text-xl font-bold text-foreground">
                 Vibe<span className="text-primary">AI</span>
               </span>
             </a>
             <p className="text-sm text-muted-foreground leading-relaxed mb-6">
-              The modern learning platform for mastering artificial intelligence. 
-              Structured courses, hands-on projects, and real-time updates.
+              Learn AI the way professionals do. Structured curriculum, real projects, 
+              no fluff.
             </p>
-            <div className="flex gap-4">
-              {["Twitter", "LinkedIn", "GitHub", "Discord"].map((social) => (
-                <a
+            <div className="flex gap-3">
+              {["X", "GH", "DC"].map((social, index) => (
+                <motion.a
                   key={social}
                   href="#"
                   className="w-9 h-9 rounded-lg bg-secondary flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-secondary/80 transition-colors"
+                  whileHover={{ scale: 1.1, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
                 >
-                  <span className="text-xs font-medium">{social.charAt(0)}</span>
-                </a>
+                  <span className="text-xs font-medium">{social}</span>
+                </motion.a>
               ))}
             </div>
-          </div>
+          </motion.div>
 
           {/* Link Columns */}
           {Object.entries(footerLinks).map(([category, links]) => (
-            <div key={category}>
+            <motion.div key={category} variants={itemVariants}>
               <h4 className="font-semibold text-foreground mb-4">{category}</h4>
               <ul className="space-y-3">
                 {links.map((link) => (
                   <li key={link}>
-                    <a
+                    <motion.a
                       href="#"
-                      className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                      className="text-sm text-muted-foreground hover:text-foreground transition-colors inline-block"
+                      whileHover={{ x: 4 }}
                     >
                       {link}
-                    </a>
+                    </motion.a>
                   </li>
                 ))}
               </ul>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* Bottom Bar */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-12 mt-12 border-t border-border/50">
+        <motion.div 
+          className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-12 mt-12 border-t border-border/50"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3 }}
+        >
           <p className="text-sm text-muted-foreground">
-            2024 VibeAI. All rights reserved.
+            VibeAI. Built for learners who ship.
           </p>
           <div className="flex items-center gap-6">
-            <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-              Status
-            </a>
-            <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-              Security
-            </a>
-            <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-              Sitemap
-            </a>
+            {["Status", "Security"].map((link) => (
+              <motion.a 
+                key={link}
+                href="#" 
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                whileHover={{ y: -2 }}
+              >
+                {link}
+              </motion.a>
+            ))}
           </div>
-        </div>
+        </motion.div>
       </div>
     </footer>
   );
