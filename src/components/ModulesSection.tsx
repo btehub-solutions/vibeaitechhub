@@ -109,7 +109,7 @@ export function ModulesSection() {
               <span className="text-sm font-medium text-primary">The Curriculum</span>
             </motion.div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
-              Twelve modules. <span className="gradient-text">One clear path.</span>
+              Growing library. <span className="gradient-text">One clear path.</span>
             </h2>
             <p className="text-lg text-muted-foreground">
               Each module builds on the last. Complete them in order, or jump to what you need.
