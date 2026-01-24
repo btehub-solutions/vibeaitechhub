@@ -2,6 +2,7 @@ import { motion, useInView, Variants } from "framer-motion";
 import { useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Clock, ExternalLink } from "lucide-react";
+import dashboardMockup from "@/assets/dashboard-mockup.png";
 
 const newsItems = [
   {
@@ -60,7 +61,7 @@ export function AINewsSection() {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section ref={ref} id="news" className="py-24 relative">
+    <section ref={ref} id="news" className="py-24 relative overflow-hidden">
       {/* Background Accent */}
       <motion.div 
         className="absolute inset-0 bg-gradient-to-t from-primary/5 to-transparent"
@@ -68,6 +69,25 @@ export function AINewsSection() {
         animate={isInView ? { opacity: 1 } : { opacity: 0 }}
         transition={{ duration: 1 }}
       />
+      
+      {/* Right Side Dashboard Mockup */}
+      <motion.div 
+        className="absolute right-0 top-1/2 -translate-y-1/2 w-[600px] h-[450px] pointer-events-none hidden xl:block"
+        initial={{ opacity: 0, x: 100, rotateY: -15 }}
+        animate={isInView ? { opacity: 0.3, x: 50, rotateY: -15 } : {}}
+        transition={{ duration: 1.2, delay: 0.4 }}
+        style={{ perspective: '1000px' }}
+      >
+        <img 
+          src={dashboardMockup} 
+          alt="" 
+          className="w-full h-full object-contain rounded-xl"
+          style={{ 
+            maskImage: 'linear-gradient(to left, black 0%, transparent 80%)',
+            WebkitMaskImage: 'linear-gradient(to left, black 0%, transparent 80%)'
+          }}
+        />
+      </motion.div>
       
       <div className="section-container relative z-10">
         {/* Header */}

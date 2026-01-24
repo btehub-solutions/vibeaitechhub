@@ -10,6 +10,7 @@ import {
   Brain,
   Rocket
 } from "lucide-react";
+import featuresVisual from "@/assets/features-visual.png";
 
 const features = [
   {
@@ -77,7 +78,7 @@ export function FeaturesSection() {
   const isInView = useInView(ref, { once: true, margin: "-50px" });
 
   return (
-    <section ref={ref} id="features" className="py-24 relative">
+    <section ref={ref} id="features" className="py-24 relative overflow-hidden">
       {/* Animated Background Gradient */}
       <motion.div 
         className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent"
@@ -85,6 +86,24 @@ export function FeaturesSection() {
         animate={isInView ? { opacity: 1 } : { opacity: 0 }}
         transition={{ duration: 1 }}
       />
+      
+      {/* Left Side Visual */}
+      <motion.div 
+        className="absolute left-0 top-1/2 -translate-y-1/2 w-[500px] h-[500px] pointer-events-none hidden xl:block"
+        initial={{ opacity: 0, x: -100 }}
+        animate={isInView ? { opacity: 0.25, x: -100 } : {}}
+        transition={{ duration: 1.2, delay: 0.2 }}
+      >
+        <img 
+          src={featuresVisual} 
+          alt="" 
+          className="w-full h-full object-contain"
+          style={{ 
+            maskImage: 'linear-gradient(to right, black 0%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to right, black 0%, transparent 100%)'
+          }}
+        />
+      </motion.div>
       
       <div className="section-container relative z-10">
         {/* Header */}

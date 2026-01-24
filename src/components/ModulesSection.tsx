@@ -2,6 +2,7 @@ import { motion, useInView, Variants } from "framer-motion";
 import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Clock, BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
+import modulesVisual from "@/assets/modules-visual.png";
 
 const modules = [
   {
@@ -74,7 +75,25 @@ export function ModulesSection() {
 
   return (
     <section ref={ref} id="modules" className="py-24 relative overflow-hidden">
-      <div className="section-container">
+      {/* Background Visual */}
+      <motion.div 
+        className="absolute inset-0 pointer-events-none"
+        initial={{ opacity: 0 }}
+        animate={isInView ? { opacity: 0.15 } : {}}
+        transition={{ duration: 1.5 }}
+      >
+        <img 
+          src={modulesVisual} 
+          alt="" 
+          className="w-full h-full object-cover"
+          style={{ 
+            maskImage: 'linear-gradient(to top, black 0%, transparent 50%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to top, black 0%, transparent 50%, transparent 100%)'
+          }}
+        />
+      </motion.div>
+      
+      <div className="section-container relative z-10">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
