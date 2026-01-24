@@ -1,6 +1,7 @@
 import { motion, useInView, Variants } from "framer-motion";
 import { useRef } from "react";
 import { XCircle, CheckCircle, Zap, Target, BookOpen, TrendingUp } from "lucide-react";
+import problemSolutionVisual from "@/assets/problem-solution-visual.png";
 
 const problems = [
   "Scattered resources with no clear progression",
@@ -48,7 +49,25 @@ export function ProblemSolutionSection() {
 
   return (
     <section ref={ref} className="py-24 relative overflow-hidden">
-      <div className="section-container">
+      {/* Background Visual */}
+      <motion.div 
+        className="absolute right-0 top-1/2 -translate-y-1/2 w-1/2 h-[600px] pointer-events-none hidden lg:block"
+        initial={{ opacity: 0, x: 100 }}
+        animate={isInView ? { opacity: 0.15, x: 0 } : {}}
+        transition={{ duration: 1, delay: 0.3 }}
+      >
+        <img 
+          src={problemSolutionVisual} 
+          alt="" 
+          className="w-full h-full object-contain object-right"
+          style={{ 
+            maskImage: 'linear-gradient(to left, black 0%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to left, black 0%, transparent 100%)'
+          }}
+        />
+      </motion.div>
+      
+      <div className="section-container relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
           {/* Problem Side */}
           <motion.div

@@ -3,6 +3,7 @@ import { useInView } from "framer-motion";
 import { useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import ctaVisual from "@/assets/cta-visual.png";
 
 export function CTASection() {
   const ref = useRef(null);
@@ -17,22 +18,40 @@ export function CTASection() {
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           className="relative glass-card p-12 lg:p-20 text-center overflow-hidden"
         >
+          {/* Background Visual */}
+          <motion.div 
+            className="absolute inset-0 pointer-events-none"
+            initial={{ opacity: 0, scale: 1.1 }}
+            animate={isInView ? { opacity: 0.2, scale: 1 } : {}}
+            transition={{ duration: 1.5 }}
+          >
+            <img 
+              src={ctaVisual} 
+              alt="" 
+              className="w-full h-full object-cover object-center"
+              style={{ 
+                maskImage: 'radial-gradient(ellipse at center, black 0%, transparent 70%)',
+                WebkitMaskImage: 'radial-gradient(ellipse at center, black 0%, transparent 70%)'
+              }}
+            />
+          </motion.div>
+          
           {/* Animated Background Orbs */}
           <motion.div 
-            className="absolute w-[500px] h-[500px] -top-60 -left-60 rounded-full blur-3xl opacity-40"
+            className="absolute w-[500px] h-[500px] -top-60 -left-60 rounded-full blur-3xl opacity-30"
             style={{ background: "radial-gradient(circle, hsl(156 100% 50%) 0%, transparent 70%)" }}
             animate={{ 
               scale: [1, 1.2, 1],
-              opacity: [0.3, 0.5, 0.3],
+              opacity: [0.2, 0.35, 0.2],
             }}
             transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
           />
           <motion.div 
-            className="absolute w-[400px] h-[400px] -bottom-40 -right-40 rounded-full blur-3xl opacity-30"
+            className="absolute w-[400px] h-[400px] -bottom-40 -right-40 rounded-full blur-3xl opacity-20"
             style={{ background: "radial-gradient(circle, hsl(156 100% 50%) 0%, transparent 70%)" }}
             animate={{ 
               scale: [1, 1.15, 1],
-              opacity: [0.2, 0.4, 0.2],
+              opacity: [0.15, 0.3, 0.15],
             }}
             transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
           />

@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Play } from "lucide-react";
+import heroVisual from "@/assets/hero-visual.png";
 
 export function HeroSection() {
   return (
@@ -30,11 +31,29 @@ export function HeroSection() {
         transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
       />
       
-      {/* Animated Grid Pattern */}
+      {/* Hero Visual Image */}
       <motion.div 
-        className="absolute inset-0 opacity-[0.02]"
+        className="absolute inset-0 flex items-center justify-center pointer-events-none"
+        initial={{ opacity: 0, scale: 1.05 }}
+        animate={{ opacity: 0.6, scale: 1 }}
+        transition={{ duration: 1.5, ease: "easeOut" }}
+      >
+        <img 
+          src={heroVisual} 
+          alt="" 
+          className="w-full h-full object-cover object-center"
+          style={{ 
+            maskImage: 'linear-gradient(to bottom, transparent 0%, black 20%, black 60%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 20%, black 60%, transparent 100%)'
+          }}
+        />
+      </motion.div>
+      
+      {/* Animated Grid Pattern Overlay */}
+      <motion.div 
+        className="absolute inset-0 opacity-[0.015]"
         initial={{ opacity: 0 }}
-        animate={{ opacity: 0.02 }}
+        animate={{ opacity: 0.015 }}
         transition={{ duration: 2 }}
         style={{
           backgroundImage: `linear-gradient(hsl(var(--foreground)) 1px, transparent 1px),
