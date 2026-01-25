@@ -7,48 +7,129 @@ import modulesVisual from "@/assets/modules-visual.png";
 const modules = [
   {
     id: 1,
-    title: "Foundations",
+    title: "Introduction to AI",
     description: "What AI actually is, how it evolved, and where it's heading. The mental models that matter.",
-    lessons: 8,
-    duration: "4 hours",
+    lessons: 6,
+    duration: "3 hours",
     level: "Start Here",
     gradient: "from-emerald-500/20 to-teal-500/20",
   },
   {
     id: 2,
-    title: "Machine Learning Core",
-    description: "Supervised and unsupervised learning. Regression, classification, clustering—the building blocks.",
-    lessons: 14,
-    duration: "10 hours",
+    title: "AI Tools, Platforms & Ecosystems",
+    description: "Navigate the AI landscape. Understand which tools to use and when to use them.",
+    lessons: 8,
+    duration: "5 hours",
     level: "Fundamentals",
     gradient: "from-blue-500/20 to-cyan-500/20",
   },
   {
     id: 3,
-    title: "Deep Learning",
-    description: "Neural networks from scratch. CNNs for vision, RNNs for sequences, Transformers for everything.",
-    lessons: 18,
-    duration: "14 hours",
-    level: "Intermediate",
+    title: "Machine Learning Fundamentals",
+    description: "Supervised and unsupervised learning. Regression, classification, clustering basics.",
+    lessons: 14,
+    duration: "10 hours",
+    level: "Fundamentals",
     gradient: "from-purple-500/20 to-pink-500/20",
   },
   {
     id: 4,
-    title: "Language Models",
-    description: "How GPT, BERT, and their successors work. Fine-tuning, prompting, and building with LLMs.",
-    lessons: 12,
-    duration: "10 hours",
-    level: "Advanced",
+    title: "Natural Language Processing",
+    description: "Text processing, sentiment analysis, and understanding how machines read language.",
+    lessons: 10,
+    duration: "8 hours",
+    level: "Intermediate",
     gradient: "from-orange-500/20 to-amber-500/20",
   },
   {
     id: 5,
-    title: "Computer Vision",
-    description: "Image classification, object detection, segmentation. Building systems that see.",
-    lessons: 16,
-    duration: "12 hours",
+    title: "Large Language Models",
+    description: "How GPT, Claude, and Llama work. Architecture, training, and practical applications.",
+    lessons: 12,
+    duration: "10 hours",
     level: "Advanced",
     gradient: "from-rose-500/20 to-red-500/20",
+  },
+  {
+    id: 6,
+    title: "AI Fluency: Framework & Fundamentals",
+    description: "Build intuition for AI capabilities and limitations. Think like an AI practitioner.",
+    lessons: 8,
+    duration: "6 hours",
+    level: "Intermediate",
+    gradient: "from-indigo-500/20 to-violet-500/20",
+  },
+  {
+    id: 7,
+    title: "Prompt Engineering",
+    description: "Master the art of instructing AI. Techniques that get consistent, quality outputs.",
+    lessons: 10,
+    duration: "7 hours",
+    level: "Intermediate",
+    gradient: "from-cyan-500/20 to-sky-500/20",
+  },
+  {
+    id: 8,
+    title: "Generative AI",
+    description: "Create with AI. Images, text, code, and beyond. Understand diffusion and generation.",
+    lessons: 12,
+    duration: "9 hours",
+    level: "Advanced",
+    gradient: "from-fuchsia-500/20 to-pink-500/20",
+  },
+  {
+    id: 9,
+    title: "Building RAGs",
+    description: "Retrieval Augmented Generation. Connect AI to your data and documents.",
+    lessons: 10,
+    duration: "8 hours",
+    level: "Advanced",
+    gradient: "from-lime-500/20 to-green-500/20",
+  },
+  {
+    id: 10,
+    title: "Building Chatbots",
+    description: "Design and deploy conversational AI. From simple bots to complex assistants.",
+    lessons: 8,
+    duration: "7 hours",
+    level: "Advanced",
+    gradient: "from-amber-500/20 to-yellow-500/20",
+  },
+  {
+    id: 11,
+    title: "AI Automation Agents",
+    description: "Build autonomous systems. Multi-step reasoning, tool use, and agent architectures.",
+    lessons: 14,
+    duration: "12 hours",
+    level: "Expert",
+    gradient: "from-teal-500/20 to-emerald-500/20",
+  },
+  {
+    id: 12,
+    title: "Vibe Coding",
+    description: "Code with AI as your partner. Workflow optimization and AI-assisted development.",
+    lessons: 8,
+    duration: "6 hours",
+    level: "Intermediate",
+    gradient: "from-primary/30 to-emerald-500/20",
+  },
+  {
+    id: 13,
+    title: "AI Ethics, Privacy & Safety",
+    description: "Responsible AI practices. Bias, fairness, transparency, and regulatory considerations.",
+    lessons: 6,
+    duration: "4 hours",
+    level: "Essential",
+    gradient: "from-slate-500/20 to-gray-500/20",
+  },
+  {
+    id: 14,
+    title: "Career Paths in AI",
+    description: "Navigate AI careers. Roles, skills, portfolios, and breaking into the industry.",
+    lessons: 5,
+    duration: "3 hours",
+    level: "Career",
+    gradient: "from-violet-500/20 to-purple-500/20",
   },
 ];
 
@@ -64,13 +145,15 @@ export function ModulesSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [activeIndex, setActiveIndex] = useState(0);
+  const visibleCount = 3;
+  const maxIndex = modules.length - visibleCount;
 
   const nextSlide = () => {
-    setActiveIndex((prev) => (prev + 1) % modules.length);
+    setActiveIndex((prev) => Math.min(prev + 1, maxIndex));
   };
 
   const prevSlide = () => {
-    setActiveIndex((prev) => (prev - 1 + modules.length) % modules.length);
+    setActiveIndex((prev) => Math.max(prev - 1, 0));
   };
 
   return (
@@ -109,10 +192,10 @@ export function ModulesSection() {
               <span className="text-sm font-medium text-primary">The Curriculum</span>
             </motion.div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
-              Growing library. <span className="gradient-text">One clear path.</span>
+              Growing curriculum. <span className="gradient-text">One clear path.</span>
             </h2>
             <p className="text-lg text-muted-foreground">
-              Each module builds on the last. Complete them in order, or jump to what you need.
+              Continuously expanding modules designed by practitioners. Learn in order, or jump to what you need.
             </p>
           </div>
           
@@ -123,6 +206,7 @@ export function ModulesSection() {
                 size="icon"
                 onClick={prevSlide}
                 className="rounded-full"
+                disabled={activeIndex === 0}
               >
                 <ChevronLeft className="w-5 h-5" />
               </Button>
@@ -133,6 +217,7 @@ export function ModulesSection() {
                 size="icon"
                 onClick={nextSlide}
                 className="rounded-full"
+                disabled={activeIndex >= maxIndex}
               >
                 <ChevronRight className="w-5 h-5" />
               </Button>
@@ -142,91 +227,82 @@ export function ModulesSection() {
 
         {/* Modules Carousel */}
         <motion.div 
-          className="relative"
+          className="relative overflow-hidden"
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
           variants={containerVariants}
         >
-          <div className="flex gap-6 overflow-hidden">
-            {modules.map((module, index) => {
-              const position = (index - activeIndex + modules.length) % modules.length;
-              const isVisible = position < 3;
-              
-              return (
-                <motion.div
-                  key={module.id}
-                  animate={{ 
-                    opacity: isVisible ? 1 : 0.3,
-                    scale: isVisible ? 1 : 0.95,
-                    x: `calc(-${activeIndex * 100}% - ${activeIndex * 24}px)`
-                  }}
-                  transition={{ duration: 0.5 }}
-                  whileHover={isVisible ? { y: -8 } : {}}
-                  className="flex-shrink-0 w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"
-                >
-                  <div className="glass-card p-6 h-full relative overflow-hidden cursor-pointer group">
-                    {/* Gradient Accent */}
+          <div 
+            className="flex gap-6 transition-transform duration-500 ease-out"
+            style={{ transform: `translateX(calc(-${activeIndex * 100 / visibleCount}% - ${activeIndex * 24 / visibleCount}px))` }}
+          >
+            {modules.map((module) => (
+              <motion.div
+                key={module.id}
+                whileHover={{ y: -8 }}
+                className="flex-shrink-0 w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"
+              >
+                <div className="glass-card p-6 h-full relative overflow-hidden cursor-pointer group">
+                  {/* Gradient Accent */}
+                  <motion.div 
+                    className={`absolute inset-0 bg-gradient-to-br ${module.gradient} opacity-50`}
+                    whileHover={{ opacity: 0.7 }}
+                    transition={{ duration: 0.3 }}
+                  />
+                  
+                  <div className="relative z-10">
+                    {/* Level Badge */}
                     <motion.div 
-                      className={`absolute inset-0 bg-gradient-to-br ${module.gradient} opacity-50`}
-                      whileHover={{ opacity: 0.7 }}
-                      transition={{ duration: 0.3 }}
-                    />
+                      className="inline-flex px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-medium text-primary mb-4"
+                      whileHover={{ scale: 1.05 }}
+                    >
+                      {module.level}
+                    </motion.div>
                     
-                    <div className="relative z-10">
-                      {/* Level Badge */}
-                      <motion.div 
-                        className="inline-flex px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-medium text-primary mb-4"
-                        whileHover={{ scale: 1.05 }}
-                      >
-                        {module.level}
-                      </motion.div>
-                      
-                      <h3 className="text-xl font-semibold mb-3 group-hover:text-primary transition-colors">{module.title}</h3>
-                      <p className="text-muted-foreground text-sm mb-6 line-clamp-2">
-                        {module.description}
-                      </p>
-                      
-                      {/* Meta Info */}
-                      <div className="flex items-center gap-4 mb-6 text-sm text-muted-foreground">
-                        <div className="flex items-center gap-1.5">
-                          <BookOpen className="w-4 h-4" />
-                          <span>{module.lessons} lessons</span>
-                        </div>
-                        <div className="flex items-center gap-1.5">
-                          <Clock className="w-4 h-4" />
-                          <span>{module.duration}</span>
-                        </div>
+                    <h3 className="text-xl font-semibold mb-3 group-hover:text-primary transition-colors">{module.title}</h3>
+                    <p className="text-muted-foreground text-sm mb-6 line-clamp-2">
+                      {module.description}
+                    </p>
+                    
+                    {/* Meta Info */}
+                    <div className="flex items-center gap-4 mb-6 text-sm text-muted-foreground">
+                      <div className="flex items-center gap-1.5">
+                        <BookOpen className="w-4 h-4" />
+                        <span>{module.lessons} lessons</span>
                       </div>
-                      
-                      <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                        <Button variant="hero" size="sm" className="w-full group/btn">
-                          Explore Module
-                          <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
-                        </Button>
-                      </motion.div>
+                      <div className="flex items-center gap-1.5">
+                        <Clock className="w-4 h-4" />
+                        <span>{module.duration}</span>
+                      </div>
                     </div>
+                    
+                    <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                      <Button variant="hero" size="sm" className="w-full group/btn">
+                        Explore Module
+                        <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                      </Button>
+                    </motion.div>
                   </div>
-                </motion.div>
-              );
-            })}
+                </div>
+              </motion.div>
+            ))}
           </div>
         </motion.div>
 
-        {/* Pagination Dots */}
-        <div className="flex justify-center gap-2 mt-8">
-          {modules.map((_, index) => (
-            <motion.button
-              key={index}
-              onClick={() => setActiveIndex(index)}
-              className={`h-2 rounded-full transition-all ${
-                index === activeIndex 
-                  ? "w-8 bg-primary" 
-                  : "w-2 bg-muted-foreground/30 hover:bg-muted-foreground/50"
-              }`}
-              whileHover={{ scale: 1.2 }}
-              whileTap={{ scale: 0.9 }}
-            />
-          ))}
+        {/* Progress Indicator */}
+        <div className="flex justify-center gap-1 mt-8">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <span>{activeIndex + 1}</span>
+            <div className="w-24 h-1 bg-muted rounded-full overflow-hidden">
+              <motion.div 
+                className="h-full bg-primary rounded-full"
+                initial={{ width: 0 }}
+                animate={{ width: `${((activeIndex + visibleCount) / modules.length) * 100}%` }}
+                transition={{ duration: 0.3 }}
+              />
+            </div>
+            <span>{modules.length}</span>
+          </div>
         </div>
       </div>
     </section>

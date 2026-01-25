@@ -11,15 +11,15 @@ import { Link } from "react-router-dom";
 
 // Mock Data
 const enrolledModules = [
-  { id: 1, title: "Foundations", progress: 85, lessons: 8, completed: 7, duration: "4 hours" },
-  { id: 2, title: "Machine Learning Core", progress: 45, lessons: 14, completed: 6, duration: "10 hours" },
-  { id: 3, title: "Deep Learning", progress: 12, lessons: 18, completed: 2, duration: "14 hours" },
+  { id: 1, title: "Introduction to AI", progress: 85, lessons: 6, completed: 5, duration: "3 hours" },
+  { id: 2, title: "Machine Learning Fundamentals", progress: 45, lessons: 14, completed: 6, duration: "10 hours" },
+  { id: 3, title: "Prompt Engineering", progress: 12, lessons: 10, completed: 1, duration: "7 hours" },
 ];
 
 const recentLessons = [
-  { id: 1, title: "Backpropagation Explained", module: "Deep Learning", time: "2 hours ago", duration: "18 min" },
-  { id: 2, title: "Gradient Descent Optimization", module: "Machine Learning Core", time: "Yesterday", duration: "24 min" },
-  { id: 3, title: "Neural Network Architectures", module: "Deep Learning", time: "2 days ago", duration: "32 min" },
+  { id: 1, title: "Crafting Effective System Prompts", module: "Prompt Engineering", time: "2 hours ago", duration: "18 min" },
+  { id: 2, title: "Gradient Descent Explained Simply", module: "Machine Learning Fundamentals", time: "Yesterday", duration: "24 min" },
+  { id: 3, title: "What Makes AI Different from Software", module: "Introduction to AI", time: "2 days ago", duration: "15 min" },
 ];
 
 const upcomingPrograms = [
@@ -36,7 +36,7 @@ const trendingTools = [
 const stats = [
   { label: "Modules Enrolled", value: "3", icon: BookOpen, change: "+1 this week" },
   { label: "Hours Learned", value: "24", icon: Clock, change: "+6 this week" },
-  { label: "Lessons Complete", value: "15", icon: Trophy, change: "+3 today" },
+  { label: "Lessons Complete", value: "12", icon: Trophy, change: "+3 today" },
   { label: "Current Streak", value: "7 days", icon: TrendingUp, change: "Keep it up" },
 ];
 
@@ -54,7 +54,7 @@ export default function StudentDashboard() {
             className="mb-8"
           >
             <h1 className="text-3xl sm:text-4xl font-bold mb-2">Welcome back, Learner</h1>
-            <p className="text-muted-foreground">Continue your AI journey. You're making great progress.</p>
+            <p className="text-muted-foreground">Continue your AI journey. You are making great progress.</p>
           </motion.div>
 
           {/* Stats Grid */}
