@@ -1,6 +1,5 @@
 import { motion, useInView, Variants } from "framer-motion";
 import { useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Clock, BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
 import modulesVisual from "@/assets/modules-visual.png";
@@ -278,12 +277,10 @@ export function ModulesSection() {
                     </div>
                     
                     <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                      <Link to={`/module/${module.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}`}>
-                        <Button variant="hero" size="sm" className="w-full group/btn">
-                          Explore Module
-                          <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
-                        </Button>
-                      </Link>
+                      <Button variant="hero" size="sm" className="w-full group/btn">
+                        Explore Module
+                        <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                      </Button>
                     </motion.div>
                   </div>
                 </div>
