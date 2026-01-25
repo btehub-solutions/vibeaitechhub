@@ -126,7 +126,7 @@ export function PricingSection() {
             >
               {plan.popular && (
                 <motion.div 
-                  className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-primary text-primary-foreground text-sm font-medium"
+                  className="absolute -top-5 left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full bg-primary text-primary-foreground text-sm font-semibold z-20 shadow-lg shadow-primary/30"
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5 }}
@@ -135,7 +135,7 @@ export function PricingSection() {
                 </motion.div>
               )}
               
-              <div className={`glass-card p-8 h-full relative overflow-hidden ${plan.popular ? 'border-primary/30' : ''}`}>
+              <div className={`glass-card p-8 h-full relative overflow-hidden ${plan.popular ? 'border-primary/50 border-2 mt-2' : ''}`}>
                 {/* Gradient Background */}
                 <motion.div 
                   className={`absolute inset-0 bg-gradient-to-br ${plan.gradient} opacity-50`}
