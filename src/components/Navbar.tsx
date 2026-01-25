@@ -2,21 +2,17 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
-import vibeaiLogo from "@/assets/vibeai-logo.png";
 
 const navLinks = [
-  { label: "Curriculum", href: "#modules" },
+  { label: "Modules", href: "#modules" },
   { label: "Features", href: "#features" },
-  { label: "Pricing", href: "#pricing" },
-  { label: "AI Tools", href: "/ai-tools", isRoute: true },
+  { label: "Community", href: "#testimonials" },
+  { label: "Updates", href: "#news" },
 ];
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const location = useLocation();
-  const isHomePage = location.pathname === "/";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,13 +21,6 @@ export function Navbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const handleNavClick = (href: string, isRoute?: boolean) => {
-    setIsMobileMenuOpen(false);
-    if (!isRoute && !isHomePage && href.startsWith("#")) {
-      window.location.href = "/" + href;
-    }
-  };
 
   return (
     <motion.header
@@ -45,50 +34,37 @@ export function Navbar() {
       <div className="section-container">
         <nav className="flex items-center justify-between">
           {/* Logo */}
-          <motion.div
+          <motion.a 
+            href="/" 
+            className="flex items-center gap-2 group"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
-            <Link to="/" className="flex items-center gap-3 group">
-              <img 
-                src={vibeaiLogo} 
-                alt="VibeAI" 
-                className="h-10 w-auto object-contain"
-              />
-            </Link>
-          </motion.div>
+            <motion.div 
+              className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center shadow-lg shadow-primary/30 group-hover:shadow-primary/50 transition-shadow"
+              whileHover={{ rotate: 5 }}
+            >
+              <span className="text-primary-foreground font-bold text-lg">V</span>
+            </motion.div>
+            <span className="text-xl font-bold text-foreground">
+              Vibe<span className="text-primary">AI</span>
+            </span>
+          </motion.a>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-1">
             {navLinks.map((link, index) => (
-              link.isRoute ? (
-                <motion.div
-                  key={link.label}
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 + index * 0.05 }}
-                  whileHover={{ y: -2 }}
-                >
-                  <Link
-                    to={link.href}
-                    className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-secondary/50"
-                  >
-                    {link.label}
-                  </Link>
-                </motion.div>
-              ) : (
-                <motion.a
-                  key={link.label}
-                  href={isHomePage ? link.href : "/" + link.href}
-                  className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-secondary/50 relative"
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 + index * 0.05 }}
-                  whileHover={{ y: -2 }}
-                >
-                  {link.label}
-                </motion.a>
-              )
+              <motion.a
+                key={link.label}
+                href={link.href}
+                className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-secondary/50 relative"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 + index * 0.05 }}
+                whileHover={{ y: -2 }}
+              >
+                {link.label}
+              </motion.a>
             ))}
           </div>
 
@@ -100,11 +76,9 @@ export function Navbar() {
             transition={{ delay: 0.3 }}
           >
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Link to="/dashboard">
-                <Button variant="ghost" size="sm">
-                  Dashboard
-                </Button>
-              </Link>
+              <Button variant="ghost" size="sm">
+                Sign In
+              </Button>
             </motion.div>
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Button variant="hero" size="sm">
@@ -158,41 +132,22 @@ export function Navbar() {
               <div className="mt-4 pb-4 border-t border-border/50 pt-4">
                 <div className="flex flex-col gap-2">
                   {navLinks.map((link, index) => (
-                    link.isRoute ? (
-                      <motion.div
-                        key={link.label}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: index * 0.05 }}
-                      >
-                        <Link
-                          to={link.href}
-                          className="px-4 py-3 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-secondary/50 block"
-                          onClick={() => setIsMobileMenuOpen(false)}
-                        >
-                          {link.label}
-                        </Link>
-                      </motion.div>
-                    ) : (
-                      <motion.a
-                        key={link.label}
-                        href={isHomePage ? link.href : "/" + link.href}
-                        className="px-4 py-3 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-secondary/50"
-                        onClick={() => handleNavClick(link.href, link.isRoute)}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: index * 0.05 }}
-                      >
-                        {link.label}
-                      </motion.a>
-                    )
+                    <motion.a
+                      key={link.label}
+                      href={link.href}
+                      className="px-4 py-3 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-secondary/50"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.05 }}
+                    >
+                      {link.label}
+                    </motion.a>
                   ))}
                   <div className="flex flex-col gap-2 mt-4 pt-4 border-t border-border/50">
-                    <Link to="/dashboard" onClick={() => setIsMobileMenuOpen(false)}>
-                      <Button variant="ghost" className="justify-start w-full">
-                        Dashboard
-                      </Button>
-                    </Link>
+                    <Button variant="ghost" className="justify-start">
+                      Sign In
+                    </Button>
                     <Button variant="hero">
                       Start Free
                     </Button>

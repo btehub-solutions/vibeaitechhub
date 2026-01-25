@@ -16,8 +16,8 @@ import { useState } from "react";
 const stats = [
   { label: "Total Users", value: "2,847", icon: Users, change: "+12% this month", color: "text-blue-400" },
   { label: "Active Learners", value: "1,234", icon: TrendingUp, change: "+8% this week", color: "text-green-400" },
-  { label: "Total Modules", value: "14", icon: BookOpen, change: "Growing curriculum", color: "text-purple-400" },
-  { label: "Revenue", value: "4.2M", icon: DollarSign, change: "+23% this month", color: "text-amber-400" },
+  { label: "Total Modules", value: "12", icon: BookOpen, change: "+2 this quarter", color: "text-purple-400" },
+  { label: "Revenue (₦)", value: "4.2M", icon: DollarSign, change: "+23% this month", color: "text-amber-400" },
 ];
 
 const users = [
@@ -29,10 +29,10 @@ const users = [
 ];
 
 const modules = [
-  { id: 1, title: "Introduction to AI", lessons: 6, enrolled: 1847, status: "Published" },
-  { id: 2, title: "Machine Learning Fundamentals", lessons: 14, enrolled: 1234, status: "Published" },
-  { id: 3, title: "Prompt Engineering", lessons: 10, enrolled: 892, status: "Published" },
-  { id: 4, title: "Building RAGs", lessons: 10, enrolled: 0, status: "Draft" },
+  { id: 1, title: "Foundations", lessons: 8, enrolled: 1847, status: "Published" },
+  { id: 2, title: "Machine Learning Core", lessons: 14, enrolled: 1234, status: "Published" },
+  { id: 3, title: "Deep Learning", lessons: 18, enrolled: 892, status: "Published" },
+  { id: 4, title: "RAG Systems", lessons: 12, enrolled: 0, status: "Draft" },
 ];
 
 const programs = [
@@ -281,7 +281,7 @@ export default function AdminDashboard() {
                       </div>
                       <div>
                         <h3 className="font-medium">{module.title}</h3>
-                        <p className="text-sm text-muted-foreground">{module.lessons} lessons, {module.enrolled} enrolled</p>
+                        <p className="text-sm text-muted-foreground">{module.lessons} lessons · {module.enrolled} enrolled</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
@@ -312,7 +312,7 @@ export default function AdminDashboard() {
               className="glass-card p-6"
             >
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-semibold">Programs and Events</h2>
+                <h2 className="text-xl font-semibold">Programs & Events</h2>
                 <div className="flex gap-2">
                   <Button variant="heroOutline" size="sm" className="gap-2">
                     <Video className="w-4 h-4" />

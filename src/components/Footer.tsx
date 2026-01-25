@@ -1,6 +1,4 @@
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
-import vibeaiLogo from "@/assets/vibeai-logo.png";
 
 const footerLinks = {
   Learn: ["Modules", "Projects", "Quizzes", "Study Guides"],
@@ -42,19 +40,23 @@ export function Footer() {
             className="col-span-2 md:col-span-4 lg:col-span-1 mb-8 lg:mb-0"
             variants={itemVariants}
           >
-            <Link to="/" className="flex items-center gap-2 mb-4 group">
-              <img 
-                src={vibeaiLogo} 
-                alt="VibeAI" 
-                className="h-10 w-auto object-contain"
-              />
-            </Link>
+            <a href="/" className="flex items-center gap-2 mb-4 group">
+              <motion.div 
+                className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center shadow-lg shadow-primary/30"
+                whileHover={{ scale: 1.1, rotate: 5 }}
+              >
+                <span className="text-primary-foreground font-bold text-lg">V</span>
+              </motion.div>
+              <span className="text-xl font-bold text-foreground">
+                Vibe<span className="text-primary">AI</span>
+              </span>
+            </a>
             <p className="text-sm text-muted-foreground leading-relaxed mb-6">
               Learn AI the way professionals do. Structured curriculum, real projects, 
               no fluff.
             </p>
             <div className="flex gap-3">
-              {["X", "GH", "DC"].map((social) => (
+              {["X", "GH", "DC"].map((social, index) => (
                 <motion.a
                   key={social}
                   href="#"
