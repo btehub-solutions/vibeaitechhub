@@ -120,20 +120,24 @@ export function ModulesSection() {
           <div className="flex items-center gap-3">
             <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
               <Button 
+                type="button"
                 variant="glass" 
                 size="icon"
                 onClick={prevSlide}
                 className="rounded-full"
+                aria-label="Previous module"
               >
                 <ChevronLeft className="w-5 h-5" />
               </Button>
             </motion.div>
             <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
               <Button 
+                type="button"
                 variant="glass" 
                 size="icon"
                 onClick={nextSlide}
                 className="rounded-full"
+                aria-label="Next module"
               >
                 <ChevronRight className="w-5 h-5" />
               </Button>
@@ -214,10 +218,11 @@ export function ModulesSection() {
         </motion.div>
 
         {/* Pagination Dots */}
-        <div className="flex justify-center gap-2 mt-8">
-          {modules.map((_, index) => (
+        <div className="flex justify-center gap-2 mt-8" role="tablist" aria-label="Module carousel pagination">
+          {modules.map((module, index) => (
             <motion.button
-              key={index}
+              type="button"
+              key={module.id}
               onClick={() => setActiveIndex(index)}
               className={`h-2 rounded-full transition-all ${
                 index === activeIndex 
@@ -226,6 +231,9 @@ export function ModulesSection() {
               }`}
               whileHover={{ scale: 1.2 }}
               whileTap={{ scale: 0.9 }}
+              aria-label={`Go to ${module.title} module`}
+              aria-selected={index === activeIndex}
+              role="tab"
             />
           ))}
         </div>

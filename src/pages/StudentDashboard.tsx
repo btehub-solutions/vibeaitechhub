@@ -46,8 +46,7 @@ export default function StudentDashboard() {
     <PageTransition>
       <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
         <Navbar />
-      <Navbar />
-      <main className="pt-24 pb-16">
+        <main className="pt-24 pb-16">
         <div className="section-container">
           {/* Header */}
           <motion.div

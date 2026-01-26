@@ -246,7 +246,7 @@ export default function AdminDashboard() {
                         </TableCell>
                         <TableCell className="text-muted-foreground">{user.joined}</TableCell>
                         <TableCell>
-                          <Button variant="ghost" size="icon" className="h-8 w-8">
+                        <Button variant="ghost" size="icon" className="h-8 w-8" aria-label="More options">
                             <MoreHorizontal className="w-4 h-4" />
                           </Button>
                         </TableCell>
@@ -292,10 +292,10 @@ export default function AdminDashboard() {
                       }`}>
                         {module.status}
                       </span>
-                      <Button variant="ghost" size="icon" className="h-8 w-8">
+                      <Button variant="ghost" size="icon" className="h-8 w-8" aria-label="Edit module">
                         <Edit className="w-4 h-4" />
                       </Button>
-                      <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive">
+                      <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive" aria-label="Delete module">
                         <Trash2 className="w-4 h-4" />
                       </Button>
                     </div>
@@ -351,7 +351,7 @@ export default function AdminDashboard() {
                       }`}>
                         {program.type}
                       </span>
-                      <Button variant="ghost" size="icon" className="h-8 w-8">
+                      <Button variant="ghost" size="icon" className="h-8 w-8" aria-label="Edit program">
                         <Edit className="w-4 h-4" />
                       </Button>
                     </div>
