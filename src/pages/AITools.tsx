@@ -4,10 +4,10 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { PageTransition } from "@/components/PageTransition";
 import { 
   Search, Filter, ExternalLink, TrendingUp, Zap, Star, 
-  MessageSquare, Image, Code, FileText, Music, Video, 
-  Brain, Sparkles, BarChart3
+  MessageSquare, Image, Code, Brain, Sparkles, Music, Video
 } from "lucide-react";
 
 // Mock Data - AI Tools
@@ -199,8 +199,9 @@ export default function AITools() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
-      <Navbar />
+    <PageTransition>
+      <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+        <Navbar />
       <main className="pt-24 pb-16" ref={ref}>
         <div className="section-container">
           {/* Header */}
@@ -348,5 +349,6 @@ export default function AITools() {
       </main>
       <Footer />
     </div>
+    </PageTransition>
   );
 }

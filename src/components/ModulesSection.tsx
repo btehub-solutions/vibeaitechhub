@@ -2,6 +2,7 @@ import { motion, useInView, Variants } from "framer-motion";
 import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Clock, BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
+import { OptimizedImage } from "@/components/OptimizedImage";
 import modulesVisual from "@/assets/modules-visual.png";
 
 const modules = [
@@ -82,7 +83,7 @@ export function ModulesSection() {
         animate={isInView ? { opacity: 0.15 } : {}}
         transition={{ duration: 1.5 }}
       >
-        <img 
+        <OptimizedImage 
           src={modulesVisual} 
           alt="" 
           className="w-full h-full object-cover"

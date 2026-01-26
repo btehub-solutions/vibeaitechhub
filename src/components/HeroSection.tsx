@@ -1,28 +1,57 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Play } from "lucide-react";
-import heroVideo from "@/assets/hero-video.mp4";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
+import { PageTransition } from "@/components/PageTransition";
 
 export function HeroSection() {
   const ref = useRef(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [videoLoaded, setVideoLoaded] = useState(false);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+
+  // Lazy load video only when component mounts
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    // For mobile, load video with lower priority
+    const isMobile = window.innerWidth < 768;
+    if (isMobile) {
+      video.preload = "none";
+    }
+
+    const handleCanPlay = () => setVideoLoaded(true);
+    video.addEventListener("canplaythrough", handleCanPlay);
+    
+    return () => video.removeEventListener("canplaythrough", handleCanPlay);
+  }, []);
 
   return (
     <section ref={ref} className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
       {/* Video Background with Parallax */}
       <motion.div className="absolute inset-0 z-0" style={{ y }}>
-        <video
+        {/* Gradient fallback for fast initial load */}
+        <div 
+          className={`absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-background transition-opacity duration-700 ${videoLoaded ? 'opacity-0' : 'opacity-100'}`}
+          aria-hidden="true"
+        />
+        <motion.video
+          ref={videoRef}
           autoPlay
           muted
           loop
           playsInline
+          preload="metadata"
           className="w-full h-full object-cover scale-110"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: videoLoaded ? 1 : 0 }}
+          transition={{ duration: 0.7 }}
         >
-          <source src={heroVideo} type="video/mp4" />
-        </video>
+          <source src="/hero-video.mp4" type="video/mp4" />
+        </motion.video>
         {/* Dark Overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background" />
       </motion.div>

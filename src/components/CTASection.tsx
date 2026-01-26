@@ -1,8 +1,8 @@
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { OptimizedImage } from "@/components/OptimizedImage";
 import ctaVisual from "@/assets/cta-visual.png";
 
 export function CTASection() {
@@ -25,7 +25,7 @@ export function CTASection() {
             animate={isInView ? { opacity: 0.2, scale: 1 } : {}}
             transition={{ duration: 1.5 }}
           >
-            <img 
+            <OptimizedImage 
               src={ctaVisual} 
               alt="" 
               className="w-full h-full object-cover object-center"

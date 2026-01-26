@@ -1,6 +1,7 @@
 import { motion, useInView, Variants } from "framer-motion";
 import { useRef } from "react";
 import { XCircle, CheckCircle, Zap, Target, BookOpen, TrendingUp } from "lucide-react";
+import { OptimizedImage } from "@/components/OptimizedImage";
 import problemSolutionVisual from "@/assets/problem-solution-visual.png";
 
 const problems = [
@@ -56,7 +57,7 @@ export function ProblemSolutionSection() {
         animate={isInView ? { opacity: 0.15, x: 0 } : {}}
         transition={{ duration: 1, delay: 0.3 }}
       >
-        <img 
+        <OptimizedImage 
           src={problemSolutionVisual} 
           alt="" 
           className="w-full h-full object-contain object-right"
