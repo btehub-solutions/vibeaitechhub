@@ -8,6 +8,7 @@ import {
   Calendar, Video, Zap, ArrowUpRight, Star
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { PageTransition } from "@/components/PageTransition";
 
 // Mock Data
 const enrolledModules = [
@@ -42,7 +43,9 @@ const stats = [
 
 export default function StudentDashboard() {
   return (
-    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+    <PageTransition>
+      <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+        <Navbar />
       <Navbar />
       <main className="pt-24 pb-16">
         <div className="section-container">
@@ -255,5 +258,6 @@ export default function StudentDashboard() {
       </main>
       <Footer />
     </div>
+    </PageTransition>
   );
 }

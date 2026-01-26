@@ -10,6 +10,7 @@ import {
   Brain,
   Rocket
 } from "lucide-react";
+import { OptimizedImage } from "@/components/OptimizedImage";
 import featuresVisual from "@/assets/features-visual.png";
 
 const features = [
@@ -94,7 +95,7 @@ export function FeaturesSection() {
         animate={isInView ? { opacity: 0.25, x: -100 } : {}}
         transition={{ duration: 1.2, delay: 0.2 }}
       >
-        <img 
+        <OptimizedImage 
           src={featuresVisual} 
           alt="" 
           className="w-full h-full object-contain"

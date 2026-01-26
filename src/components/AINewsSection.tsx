@@ -2,6 +2,7 @@ import { motion, useInView, Variants } from "framer-motion";
 import { useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Clock, ExternalLink } from "lucide-react";
+import { OptimizedImage } from "@/components/OptimizedImage";
 import dashboardMockup from "@/assets/dashboard-mockup.png";
 
 const newsItems = [
@@ -78,7 +79,7 @@ export function AINewsSection() {
         transition={{ duration: 1.2, delay: 0.4 }}
         style={{ perspective: '1000px' }}
       >
-        <img 
+        <OptimizedImage 
           src={dashboardMockup} 
           alt="" 
           className="w-full h-full object-contain rounded-xl"

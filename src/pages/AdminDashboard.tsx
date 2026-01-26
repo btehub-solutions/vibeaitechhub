@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import { PageTransition } from "@/components/PageTransition";
 
 // Mock Data
 const stats = [
@@ -56,7 +57,8 @@ export default function AdminDashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+    <PageTransition>
+      <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <Navbar />
       <main className="pt-24 pb-16">
         <div className="section-container">
@@ -383,5 +385,6 @@ export default function AdminDashboard() {
       </main>
       <Footer />
     </div>
+    </PageTransition>
   );
 }

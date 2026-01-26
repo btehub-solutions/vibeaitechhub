@@ -9,24 +9,27 @@ import { ProgramsSection } from "@/components/ProgramsSection";
 import { AINewsSection } from "@/components/AINewsSection";
 import { CTASection } from "@/components/CTASection";
 import { Footer } from "@/components/Footer";
+import { PageTransition } from "@/components/PageTransition";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
-      <Navbar />
-      <main>
-        <HeroSection />
-        <ProblemSolutionSection />
-        <FeaturesSection />
-        <ModulesSection />
-        <PricingSection />
-        <ProgramsSection />
-        <TestimonialsSection />
-        <AINewsSection />
-        <CTASection />
-      </main>
-      <Footer />
-    </div>
+    <PageTransition>
+      <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+        <Navbar />
+        <main>
+          <HeroSection />
+          <ProblemSolutionSection />
+          <FeaturesSection />
+          <ModulesSection />
+          <PricingSection />
+          <ProgramsSection />
+          <TestimonialsSection />
+          <AINewsSection />
+          <CTASection />
+        </main>
+        <Footer />
+      </div>
+    </PageTransition>
   );
 };
 
