@@ -43,6 +43,11 @@ export function OptimizedImage({
     return () => observer.disconnect();
   }, [priority]);
 
+  // Handle error state gracefully
+  const handleError = () => {
+    console.warn(`Failed to load image: ${src}`);
+  };
+
   return (
     <motion.img
       ref={imgRef}
@@ -56,6 +61,7 @@ export function OptimizedImage({
       animate={{ opacity: isLoaded ? 1 : 0 }}
       transition={{ duration: 0.4 }}
       onLoad={() => setIsLoaded(true)}
+      onError={handleError}
     />
   );
 }

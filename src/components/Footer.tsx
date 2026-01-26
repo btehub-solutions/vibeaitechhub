@@ -56,15 +56,20 @@ export function Footer() {
               no fluff.
             </p>
             <div className="flex gap-3">
-              {["X", "GH", "DC"].map((social, index) => (
+              {[
+                { abbr: "X", label: "X (Twitter)" },
+                { abbr: "GH", label: "GitHub" },
+                { abbr: "DC", label: "Discord" }
+              ].map((social) => (
                 <motion.a
-                  key={social}
+                  key={social.abbr}
                   href="#"
                   className="w-9 h-9 rounded-lg bg-secondary flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-secondary/80 transition-colors"
                   whileHover={{ scale: 1.1, y: -2 }}
                   whileTap={{ scale: 0.95 }}
+                  aria-label={`Follow us on ${social.label}`}
                 >
-                  <span className="text-xs font-medium">{social}</span>
+                  <span className="text-xs font-medium" aria-hidden="true">{social.abbr}</span>
                 </motion.a>
               ))}
             </div>
