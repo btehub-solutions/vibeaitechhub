@@ -1,0 +1,27 @@
+# Ignore backend folder - Django should be deployed separately
+backend/
+requirements.txt
+
+# Python files
+*.py
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+
+# Development files
+.env
+.env.local
+.env.*.local
+
+# Testing
+coverage/
+.nyc_output/
+
+# Build artifacts already in .gitignore
+node_modules/
+dist/
+dist-ssr/
