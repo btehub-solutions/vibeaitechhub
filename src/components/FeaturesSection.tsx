@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { OptimizedImage } from "@/components/OptimizedImage";
 import featuresVisual from "@/assets/features-visual.png";
+import { toast } from "sonner";
 
 const features = [
   {
@@ -140,13 +141,14 @@ export function FeaturesSection() {
             <motion.div
               key={feature.title}
               variants={itemVariants}
-              whileHover={{ 
-                y: -8, 
-                transition: { duration: 0.3 } 
+              whileHover={{
+                y: -8,
+                transition: { duration: 0.3 }
               }}
               className="glass-card p-6 group cursor-pointer"
+              onClick={() => toast.info(`${feature.title}: Details coming soon`)}
             >
-              <motion.div 
+              <motion.div
                 className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors"
                 whileHover={{ rotate: [0, -10, 10, 0], scale: 1.1 }}
                 transition={{ duration: 0.4 }}

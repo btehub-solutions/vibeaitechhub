@@ -79,9 +79,20 @@ const itemVariants: Variants = {
   }
 };
 
+import { useNavigate } from "react-router-dom";
+
 export function PricingSection() {
+  const navigate = useNavigate();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  const handleAction = (plan: string) => {
+    if (plan === "Contact Sales") {
+      window.location.href = "mailto:sales@vibeai.example";
+    } else {
+      navigate('/signup');
+    }
+  };
 
   return (
     <section ref={ref} id="pricing" className="py-24 relative overflow-hidden">
@@ -185,6 +196,7 @@ export function PricingSection() {
                       variant={plan.popular ? "hero" : "heroOutline"} 
                       size="lg" 
                       className="w-full"
+                      onClick={() => handleAction(plan.cta)}
                     >
                       {plan.cta}
                     </Button>

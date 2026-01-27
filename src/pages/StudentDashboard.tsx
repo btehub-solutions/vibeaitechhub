@@ -7,7 +7,7 @@ import {
   BookOpen, Clock, Trophy, TrendingUp, Play, ChevronRight, 
   Calendar, Video, Zap, ArrowUpRight, Star
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { PageTransition } from "@/components/PageTransition";
 import { useQuery } from "@tanstack/react-query";
@@ -17,6 +17,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function StudentDashboard() {
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   const { data: dashboardData, isLoading } = useQuery({
     queryKey: ['dashboard'],
@@ -132,7 +133,7 @@ export default function StudentDashboard() {
                     variant="ghost" 
                     size="sm" 
                     className="text-primary"
-                    onClick={() => window.location.href = '/#modules'}
+                    onClick={() => navigate('/#modules')}
                   >
                     View All <ChevronRight className="w-4 h-4 ml-1" />
                   </Button>
@@ -205,7 +206,7 @@ export default function StudentDashboard() {
                   <Button 
                     variant="hero" 
                     className="w-full justify-start gap-2"
-                    onClick={() => window.location.href = '/#modules'}
+                    onClick={() => navigate('/#modules')}
                   >
                     <Play className="w-4 h-4" />
                     Start Learning
@@ -213,7 +214,7 @@ export default function StudentDashboard() {
                   <Button 
                     variant="heroOutline" 
                     className="w-full justify-start gap-2"
-                    onClick={() => window.location.href = '/#modules'}
+                    onClick={() => navigate('/#modules')}
                   >
                     <Star className="w-4 h-4" />
                     Browse Catalog

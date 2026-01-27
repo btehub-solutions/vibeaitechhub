@@ -4,7 +4,10 @@ import { ArrowRight, Play } from "lucide-react";
 import { useRef, useState, useEffect } from "react";
 import { PageTransition } from "@/components/PageTransition";
 
+import { useNavigate } from "react-router-dom";
+
 export function HeroSection() {
+  const navigate = useNavigate();
   const ref = useRef(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [videoLoaded, setVideoLoaded] = useState(false);
@@ -100,7 +103,7 @@ export function HeroSection() {
                 variant="hero" 
                 size="xl" 
                 className="group"
-                onClick={() => window.location.href = '/signup'}
+                onClick={() => navigate('/signup')}
             >
               Start Learning
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />

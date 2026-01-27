@@ -5,7 +5,10 @@ import { ArrowRight } from "lucide-react";
 import { OptimizedImage } from "@/components/OptimizedImage";
 import ctaVisual from "@/assets/cta-visual.png";
 
+import { useNavigate } from "react-router-dom";
+
 export function CTASection() {
+  const navigate = useNavigate();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
@@ -84,7 +87,7 @@ export function CTASection() {
               className="flex flex-col sm:flex-row items-center justify-center gap-4"
             >
               <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
-                <Button variant="hero" size="xl" className="group">
+                <Button variant="hero" size="xl" className="group" onClick={() => navigate('/signup')}>
                   Create Free Account
                   <motion.span
                     animate={{ x: [0, 4, 0] }}
@@ -95,7 +98,10 @@ export function CTASection() {
                 </Button>
               </motion.div>
               <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
-                <Button variant="heroOutline" size="xl">
+                <Button variant="heroOutline" size="xl" onClick={() => {
+                  const pricing = document.getElementById('pricing');
+                  if (pricing) pricing.scrollIntoView({ behavior: 'smooth' });
+                }}>
                   View Pricing
                 </Button>
               </motion.div>
