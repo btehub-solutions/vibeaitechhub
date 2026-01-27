@@ -1,32 +1,16 @@
 {
-    "builds": [
+    "rewrites": [
         {
-            "src": "backend/core/wsgi.py",
-            "use": "@vercel/python",
-            "config": { "maxLambdaSize": "15mb", "runtime": "python3.9" }
+            "source": "/api/:path*",
+            "destination": "/backend/core/wsgi.py"
         },
         {
-            "src": "package.json",
-            "use": "@vercel/static-build",
-            "config": { "distDir": "dist" }
-        }
-    ],
-    "routes": [
-        {
-            "src": "/api/(.*)",
-            "dest": "backend/core/wsgi.py"
+            "source": "/admin/:path*",
+            "destination": "/backend/core/wsgi.py"
         },
         {
-            "src": "/admin/(.*)",
-            "dest": "backend/core/wsgi.py"
-        },
-        {
-            "src": "/static/(.*)",
-            "dest": "backend/core/wsgi.py"
-        },
-        {
-            "src": "/(.*)",
-            "dest": "/index.html"
+            "source": "/static/:path*",
+            "destination": "/backend/core/wsgi.py"
         }
     ]
 }
