@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -6,7 +5,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import { supabase } from "@/lib/supabase";
+import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -20,12 +19,13 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
 const formSchema = z.object({
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+  email: z.string().min(1, "Email or Username is required"),
+  password: z.string().min(1, "Password is required"),
 });
 
 export default function Login() {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [loading, setLoading] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -39,20 +39,17 @@ export default function Login() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setLoading(true);
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      await login({
         email: values.email,
         password: values.password,
       });
 
-      if (error) {
-        toast.error(error.message);
-        return;
-      }
-
       toast.success("Successfully logged in!");
       navigate("/dashboard");
-    } catch (error) {
-      toast.error("An unexpected error occurred");
+    } catch (error: any) {
+      console.error(error);
+      const msg = error.response?.data?.non_field_errors?.[0] || error.message || "Failed to log in";
+      toast.error(msg);
     } finally {
       setLoading(false);
     }
@@ -64,7 +61,7 @@ export default function Login() {
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-center">Welcome back</CardTitle>
           <CardDescription className="text-center">
-            Enter your email to sign in to your account
+            Enter your credentials to sign in to your account
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -75,9 +72,9 @@ export default function Login() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>Email or Username</FormLabel>
                     <FormControl>
-                      <Input placeholder="name@example.com" {...field} />
+                      <Input placeholder="admin" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

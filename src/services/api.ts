@@ -1,10 +1,8 @@
-
 import axios from 'axios';
-import { supabase } from '@/lib/supabase';
 
 // Create api instance
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000/api', // Fallback to local Django
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000/api',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -12,10 +10,10 @@ const api = axios.create({
 
 // Add interceptor to inject Token
 api.interceptors.request.use(async (config) => {
-  const { data: { session } } = await supabase.auth.getSession();
+  const token = localStorage.getItem('access_token');
   
-  if (session?.access_token) {
-    config.headers.Authorization = `Bearer ${session.access_token}`;
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
   }
   
   return config;
@@ -27,9 +25,11 @@ api.interceptors.request.use(async (config) => {
 api.interceptors.response.use((response) => {
   return response;
 }, (error) => {
-  // Handle 401 (Unauthorized) - maybe redirect to login?
+  // Handle 401 (Unauthorized)
   if (error.response?.status === 401) {
-    // console.log('Unauthorized - redirecting to login?');
+    // Optional: Clear token and redirect if needed
+    // localStorage.removeItem('access_token');
+    // window.location.href = '/login';
   }
   return Promise.reject(error);
 });
