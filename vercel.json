@@ -11,6 +11,10 @@
         {
             "source": "/static/:path*",
             "destination": "/backend/core/wsgi.py"
+        },
+        {
+            "source": "/(.*)",
+            "destination": "/index.html"
         }
     ]
 }
