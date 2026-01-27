@@ -1,8 +1,12 @@
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-SECRET_KEY = 'django-insecure-y6*=d&2tkss6i61nfi(kolitqag36tq!et@xgxo-vr9zm^m58^'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-y6*=d&2tkss6i61nfi(kolitqag36tq!et@xgxo-vr9zm^m58^')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -86,7 +90,8 @@ AUTH_USER_MODEL = 'users.User'
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+        'core.authentication.SupabaseAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',

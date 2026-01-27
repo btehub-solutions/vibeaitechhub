@@ -1,7 +1,12 @@
+
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, LogOut, User } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/lib/supabase";
+import { toast } from "sonner";
 
 const navLinks = [
   { label: "Modules", href: "#modules" },
@@ -13,6 +18,8 @@ const navLinks = [
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,6 +28,12 @@ export function Navbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    toast.success("Logged out successfully");
+    navigate("/");
+  };
 
   return (
     <motion.header
@@ -75,16 +88,35 @@ export function Navbar() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3 }}
           >
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button variant="ghost" size="sm">
-                Sign In
-              </Button>
-            </motion.div>
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button variant="hero" size="sm">
-                Start Free
-              </Button>
-            </motion.div>
+            {user ? (
+              <>
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <Button variant="ghost" size="sm" onClick={() => navigate("/dashboard")}>
+                    <User className="mr-2 h-4 w-4" />
+                    Dashboard
+                  </Button>
+                </motion.div>
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <Button variant="outline" size="sm" onClick={handleLogout}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Log out
+                  </Button>
+                </motion.div>
+              </>
+            ) : (
+              <>
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <Button variant="ghost" size="sm" onClick={() => navigate("/login")}>
+                    Sign In
+                  </Button>
+                </motion.div>
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <Button variant="hero" size="sm" onClick={() => navigate("/signup")}>
+                    Start Free
+                  </Button>
+                </motion.div>
+              </>
+            )}
           </motion.div>
 
           {/* Mobile Menu Toggle */}
@@ -148,12 +180,25 @@ export function Navbar() {
                     </motion.a>
                   ))}
                   <div className="flex flex-col gap-2 mt-4 pt-4 border-t border-border/50">
-                    <Button variant="ghost" className="justify-start">
-                      Sign In
-                    </Button>
-                    <Button variant="hero">
-                      Start Free
-                    </Button>
+                    {user ? (
+                      <>
+                        <Button variant="ghost" className="justify-start" onClick={() => navigate("/dashboard")}>
+                          Dashboard
+                        </Button>
+                        <Button variant="outline" className="justify-start" onClick={handleLogout}>
+                          Log out
+                        </Button>
+                      </>
+                    ) : (
+                      <>
+                        <Button variant="ghost" className="justify-start" onClick={() => navigate("/login")}>
+                          Sign In
+                        </Button>
+                        <Button variant="hero" onClick={() => navigate("/signup")}>
+                          Start Free
+                        </Button>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>

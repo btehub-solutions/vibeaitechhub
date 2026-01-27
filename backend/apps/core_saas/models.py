@@ -58,5 +58,43 @@ class Enrollment(models.Model):
     class Meta:
         unique_together = ('user', 'program')
 
+
+class Module(models.Model):
+    program = models.ForeignKey(Program, on_delete=models.CASCADE, related_name='modules')
+    title = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+    order = models.PositiveIntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['order']
+
     def __str__(self):
-        return f"{self.user.username} enrolled in {self.program.title}"
+        return f"{self.program.title} - {self.title}"
+
+class Lesson(models.Model):
+    module = models.ForeignKey(Module, on_delete=models.CASCADE, related_name='lessons')
+    title = models.CharField(max_length=255)
+    content = models.TextField(help_text="Markdown content for the lesson", blank=True)
+    video_url = models.URLField(blank=True, null=True)
+    duration = models.DurationField(help_text="Duration of the lesson (e.g. 00:15:00)", null=True, blank=True)
+    order = models.PositiveIntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self):
+        return self.title
+
+class LessonProgress(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='lesson_progress')
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, related_name='progress')
+    is_completed = models.BooleanField(default=False)
+    completed_at = models.DateTimeField(null=True, blank=True)
+    
+    class Meta:
+        unique_together = ('user', 'lesson')
+
+    def __str__(self):
+        return f"{self.user.username} - {self.lesson.title} ({'Completed' if self.is_completed else 'In Progress'})"

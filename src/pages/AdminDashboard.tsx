@@ -12,8 +12,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { PageTransition } from "@/components/PageTransition";
+import { useQuery } from "@tanstack/react-query";
+import api from "@/services/api";
+import { Skeleton } from "@/components/ui/skeleton";
 
-// Mock Data
+// Mock Data for unimplemented features
 const stats = [
   { label: "Total Users", value: "2,847", icon: Users, change: "+12% this month", color: "text-blue-400" },
   { label: "Active Learners", value: "1,234", icon: TrendingUp, change: "+8% this week", color: "text-green-400" },
@@ -25,21 +28,6 @@ const users = [
   { id: 1, name: "Adebayo Okonkwo", email: "adebayo@example.com", plan: "Pro", modules: 5, status: "Active", joined: "Jan 15, 2025" },
   { id: 2, name: "Fatima Hassan", email: "fatima@example.com", plan: "Free", modules: 2, status: "Active", joined: "Jan 18, 2025" },
   { id: 3, name: "Chukwuemeka Nwachukwu", email: "chukwuemeka@example.com", plan: "Enterprise", modules: 8, status: "Active", joined: "Jan 10, 2025" },
-  { id: 4, name: "Aisha Mohammed", email: "aisha@example.com", plan: "Pro", modules: 4, status: "Inactive", joined: "Dec 28, 2024" },
-  { id: 5, name: "Oluwaseun Adeyemi", email: "seun@example.com", plan: "Free", modules: 1, status: "Active", joined: "Jan 20, 2025" },
-];
-
-const modules = [
-  { id: 1, title: "Foundations", lessons: 8, enrolled: 1847, status: "Published" },
-  { id: 2, title: "Machine Learning Core", lessons: 14, enrolled: 1234, status: "Published" },
-  { id: 3, title: "Deep Learning", lessons: 18, enrolled: 892, status: "Published" },
-  { id: 4, title: "RAG Systems", lessons: 12, enrolled: 0, status: "Draft" },
-];
-
-const programs = [
-  { id: 1, title: "AI Foundations Bootcamp", type: "Training", date: "Feb 15-Mar 15", registered: 17, capacity: 25 },
-  { id: 2, title: "LLM Engineering Workshop", type: "Workshop", date: "Feb 22", registered: 38, capacity: 50 },
-  { id: 3, title: "Weekly AI Office Hours", type: "Meeting", date: "Every Thursday", registered: 33, capacity: 100 },
 ];
 
 type Tab = "overview" | "users" | "content" | "programs" | "tools";
@@ -47,6 +35,25 @@ type Tab = "overview" | "users" | "content" | "programs" | "tools";
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState<Tab>("overview");
   const [searchQuery, setSearchQuery] = useState("");
+
+  const { data: programs = [], isLoading } = useQuery({
+    queryKey: ['programs'],
+    queryFn: async () => {
+      const response = await api.get('/programs/');
+      return response.data.results || response.data;
+    }
+  });
+
+  // Derived modules from programs
+  const modules = programs.flatMap((program: any) => 
+    program.modules?.map((module: any) => ({
+        id: module.id,
+        title: module.title,
+        lessons: module.lessons?.length || 0,
+        enrolled: 0, // Need backend stat
+        status: program.is_published ? "Published" : "Draft"
+    })) || []
+  );
 
   const tabs: { id: Tab; label: string; icon: React.ElementType }[] = [
     { id: "overview", label: "Overview", icon: TrendingUp },
@@ -167,7 +174,7 @@ export default function AdminDashboard() {
                 >
                   <h2 className="text-xl font-semibold mb-4">Module Performance</h2>
                   <div className="space-y-3">
-                    {modules.slice(0, 4).map((module) => (
+                    {modules.slice(0, 4).map((module: any) => (
                       <div key={module.id} className="flex items-center justify-between p-3 rounded-lg bg-surface-elevated/50">
                         <div>
                           <div className="font-medium">{module.title}</div>
@@ -193,68 +200,7 @@ export default function AdminDashboard() {
               transition={{ duration: 0.5 }}
               className="glass-card p-6"
             >
-              <div className="flex flex-col sm:flex-row gap-4 mb-6">
-                <div className="relative flex-1">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                  <Input 
-                    placeholder="Search users..." 
-                    className="pl-10"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                  />
-                </div>
-                <Button variant="heroOutline" className="gap-2">
-                  <Filter className="w-4 h-4" />
-                  Filter
-                </Button>
-              </div>
-
-              <div className="overflow-x-auto">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Name</TableHead>
-                      <TableHead>Email</TableHead>
-                      <TableHead>Plan</TableHead>
-                      <TableHead>Modules</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Joined</TableHead>
-                      <TableHead className="w-[50px]"></TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {users.map((user) => (
-                      <TableRow key={user.id}>
-                        <TableCell className="font-medium">{user.name}</TableCell>
-                        <TableCell className="text-muted-foreground">{user.email}</TableCell>
-                        <TableCell>
-                          <span className={`text-xs px-2 py-1 rounded-full ${
-                            user.plan === "Pro" ? "bg-primary/20 text-primary" :
-                            user.plan === "Enterprise" ? "bg-purple-500/20 text-purple-400" :
-                            "bg-muted text-muted-foreground"
-                          }`}>
-                            {user.plan}
-                          </span>
-                        </TableCell>
-                        <TableCell>{user.modules}</TableCell>
-                        <TableCell>
-                          <span className={`text-xs px-2 py-1 rounded-full ${
-                            user.status === "Active" ? "bg-green-500/20 text-green-400" : "bg-muted text-muted-foreground"
-                          }`}>
-                            {user.status}
-                          </span>
-                        </TableCell>
-                        <TableCell className="text-muted-foreground">{user.joined}</TableCell>
-                        <TableCell>
-                        <Button variant="ghost" size="icon" className="h-8 w-8" aria-label="More options">
-                            <MoreHorizontal className="w-4 h-4" />
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
+             <p className="text-muted-foreground text-center">User management coming soon.</p>
             </motion.div>
           )}
 
@@ -275,7 +221,12 @@ export default function AdminDashboard() {
               </div>
 
               <div className="space-y-4">
-                {modules.map((module) => (
+               {isLoading ? (
+                    <div className="space-y-4">
+                        <Skeleton className="h-16 w-full" />
+                        <Skeleton className="h-16 w-full" />
+                    </div>
+                ) : modules.map((module: any) => (
                   <div key={module.id} className="flex items-center justify-between p-4 rounded-lg bg-surface-elevated/50 border border-border/50">
                     <div className="flex items-center gap-4">
                       <div className="p-3 rounded-lg bg-primary/10">
@@ -316,10 +267,6 @@ export default function AdminDashboard() {
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-xl font-semibold">Programs & Events</h2>
                 <div className="flex gap-2">
-                  <Button variant="heroOutline" size="sm" className="gap-2">
-                    <Video className="w-4 h-4" />
-                    Add Meeting
-                  </Button>
                   <Button variant="hero" size="sm" className="gap-2">
                     <Plus className="w-4 h-4" />
                     Add Program
@@ -328,28 +275,30 @@ export default function AdminDashboard() {
               </div>
 
               <div className="space-y-4">
-                {programs.map((program) => (
+                {isLoading ? (
+                     <div className="space-y-4">
+                        <Skeleton className="h-16 w-full" />
+                        <Skeleton className="h-16 w-full" />
+                    </div>
+                ) : programs.map((program: any) => (
                   <div key={program.id} className="flex items-center justify-between p-4 rounded-lg bg-surface-elevated/50 border border-border/50">
                     <div className="flex items-center gap-4">
                       <div className="p-3 rounded-lg bg-primary/10">
-                        {program.type === "Meeting" ? <Video className="w-5 h-5 text-primary" /> : <Calendar className="w-5 h-5 text-primary" />}
+                         <Calendar className="w-5 h-5 text-primary" />
                       </div>
                       <div>
                         <h3 className="font-medium">{program.title}</h3>
-                        <p className="text-sm text-muted-foreground">{program.date}</p>
+                        <p className="text-sm text-muted-foreground">Price: ₦{program.price}</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-4">
                       <div className="text-right">
-                        <div className="font-medium">{program.registered}/{program.capacity}</div>
-                        <div className="text-xs text-muted-foreground">registered</div>
+                         {/* Capacity/Registered logic needed */}
                       </div>
                       <span className={`text-xs px-2 py-1 rounded-full ${
-                        program.type === "Training" ? "bg-blue-500/20 text-blue-400" :
-                        program.type === "Workshop" ? "bg-purple-500/20 text-purple-400" :
-                        "bg-primary/20 text-primary"
+                        program.is_published ? "bg-primary/20 text-primary" : "bg-muted text-muted-foreground"
                       }`}>
-                        {program.type}
+                        {program.is_published ? "Active" : "Draft"}
                       </span>
                       <Button variant="ghost" size="icon" className="h-8 w-8" aria-label="Edit program">
                         <Edit className="w-4 h-4" />

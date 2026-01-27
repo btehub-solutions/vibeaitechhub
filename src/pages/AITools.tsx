@@ -9,150 +9,19 @@ import {
   Search, Filter, ExternalLink, TrendingUp, Zap, Star, 
   MessageSquare, Image, Code, Brain, Sparkles, Music, Video
 } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import api from "@/services/api";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Badge } from "@/components/ui/badge";
 
-// Mock Data - AI Tools
+// Mock categories for now, but could be dynamic
 const categories = [
-  { id: "all", label: "All Tools", count: 24 },
-  { id: "llm", label: "Language Models", count: 8 },
-  { id: "image", label: "Image Generation", count: 6 },
-  { id: "code", label: "Code Assistants", count: 5 },
-  { id: "audio", label: "Audio & Speech", count: 3 },
-  { id: "video", label: "Video AI", count: 2 },
-];
-
-const tools = [
-  {
-    id: 1,
-    name: "Claude 3.5 Sonnet",
-    category: "llm",
-    description: "Anthropic's most intelligent model. Excellent for complex reasoning, coding, and nuanced conversations.",
-    status: "Hot",
-    rating: 4.9,
-    icon: MessageSquare,
-    features: ["200K context", "Vision support", "Advanced reasoning"],
-    link: "#",
-  },
-  {
-    id: 2,
-    name: "GPT-4 Turbo",
-    category: "llm",
-    description: "OpenAI's flagship model with improved instruction following and knowledge cutoff.",
-    status: "Popular",
-    rating: 4.8,
-    icon: Brain,
-    features: ["128K context", "Vision support", "Function calling"],
-    link: "#",
-  },
-  {
-    id: 3,
-    name: "Midjourney v6",
-    category: "image",
-    description: "Industry-leading image generation with unprecedented photorealism and artistic control.",
-    status: "Trending",
-    rating: 4.9,
-    icon: Image,
-    features: ["Photorealistic", "Style control", "Inpainting"],
-    link: "#",
-  },
-  {
-    id: 4,
-    name: "Cursor AI",
-    category: "code",
-    description: "AI-first code editor built on VS Code. Writes, refactors, and understands your codebase.",
-    status: "New",
-    rating: 4.7,
-    icon: Code,
-    features: ["Codebase aware", "Multi-file edits", "Chat interface"],
-    link: "#",
-  },
-  {
-    id: 5,
-    name: "DALL-E 3",
-    category: "image",
-    description: "OpenAI's latest image model with improved prompt following and text rendering.",
-    status: "Popular",
-    rating: 4.6,
-    icon: Image,
-    features: ["Text in images", "ChatGPT integration", "Safe by design"],
-    link: "#",
-  },
-  {
-    id: 6,
-    name: "GitHub Copilot",
-    category: "code",
-    description: "Your AI pair programmer. Suggests code completions and entire functions in real-time.",
-    status: "Essential",
-    rating: 4.7,
-    icon: Code,
-    features: ["IDE integration", "Multi-language", "Context aware"],
-    link: "#",
-  },
-  {
-    id: 7,
-    name: "Llama 3 70B",
-    category: "llm",
-    description: "Meta's open-source powerhouse. Run locally or deploy with full control.",
-    status: "Open Source",
-    rating: 4.5,
-    icon: MessageSquare,
-    features: ["Open weights", "Local deployment", "Fine-tunable"],
-    link: "#",
-  },
-  {
-    id: 8,
-    name: "ElevenLabs",
-    category: "audio",
-    description: "Realistic AI voice generation and cloning. Create lifelike speech in any voice.",
-    status: "Trending",
-    rating: 4.8,
-    icon: Music,
-    features: ["Voice cloning", "Multi-language", "Emotional range"],
-    link: "#",
-  },
-  {
-    id: 9,
-    name: "Runway Gen-2",
-    category: "video",
-    description: "Generate and edit videos with AI. Text-to-video, image-to-video, and more.",
-    status: "Hot",
-    rating: 4.6,
-    icon: Video,
-    features: ["Text to video", "Motion brush", "Green screen"],
-    link: "#",
-  },
-  {
-    id: 10,
-    name: "Perplexity AI",
-    category: "llm",
-    description: "AI-powered search engine that provides cited, conversational answers.",
-    status: "Rising",
-    rating: 4.7,
-    icon: Sparkles,
-    features: ["Real-time search", "Citations", "Pro search"],
-    link: "#",
-  },
-  {
-    id: 11,
-    name: "Stable Diffusion XL",
-    category: "image",
-    description: "Open-source image generation. Full control, local deployment, infinite customization.",
-    status: "Open Source",
-    rating: 4.5,
-    icon: Image,
-    features: ["Open source", "LoRA support", "Local running"],
-    link: "#",
-  },
-  {
-    id: 12,
-    name: "Gemini Pro",
-    category: "llm",
-    description: "Google's multimodal AI. Understands text, images, audio, and code natively.",
-    status: "New",
-    rating: 4.6,
-    icon: Brain,
-    features: ["Multimodal", "1M context", "Grounding"],
-    link: "#",
-  },
+  { id: "all", label: "All Tools" },
+  { id: "LLM", label: "Language Models" },
+  { id: "Image Gen", label: "Image Generation" },
+  { id: "Code", label: "Code Assistants" },
+  { id: "Audio", label: "Audio & Speech" },
+  { id: "Video", label: "Video AI" },
 ];
 
 const containerVariants: Variants = {
@@ -178,24 +47,23 @@ export default function AITools() {
   const [activeCategory, setActiveCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredTools = tools.filter((tool) => {
+  const { data: tools = [], isLoading } = useQuery({
+    queryKey: ['tools'],
+    queryFn: async () => {
+      const response = await api.get('/tools/');
+      return response.data;
+    }
+  });
+
+  const filteredTools = Array.isArray(tools) ? tools.filter((tool: any) => { // Type check for tools
     const matchesCategory = activeCategory === "all" || tool.category === activeCategory;
     const matchesSearch = tool.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          tool.description.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
-  });
+  }) : [];
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "Hot": return "bg-red-500/20 text-red-400";
-      case "Trending": return "bg-orange-500/20 text-orange-400";
-      case "New": return "bg-blue-500/20 text-blue-400";
-      case "Popular": return "bg-primary/20 text-primary";
-      case "Essential": return "bg-purple-500/20 text-purple-400";
-      case "Open Source": return "bg-green-500/20 text-green-400";
-      case "Rising": return "bg-amber-500/20 text-amber-400";
-      default: return "bg-muted text-muted-foreground";
-    }
+  const getStatusColor = (status: boolean) => {
+      return status ? "bg-orange-500/20 text-orange-400" : "bg-muted text-muted-foreground";
   };
 
   return (
@@ -265,7 +133,6 @@ export default function AITools() {
                 className="whitespace-nowrap"
               >
                 {category.label}
-                <span className="ml-2 text-xs opacity-60">{category.count}</span>
               </Button>
             ))}
           </motion.div>
@@ -277,7 +144,11 @@ export default function AITools() {
             animate={isInView ? "visible" : "hidden"}
             variants={containerVariants}
           >
-            {filteredTools.map((tool) => (
+            {isLoading ? (
+                Array(6).fill(0).map((_, i) => (
+                    <Skeleton key={i} className="h-64 rounded-xl" />
+                ))
+            ) : filteredTools.map((tool: any) => (
               <motion.div
                 key={tool.id}
                 variants={itemVariants}
@@ -288,21 +159,25 @@ export default function AITools() {
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-3">
                     <div className="p-2.5 rounded-xl bg-primary/10 border border-primary/20">
-                      <tool.icon className="w-5 h-5 text-primary" />
+                         {/* Fallback Icon logic could be improved based on category */}
+                         <Zap className="w-5 h-5 text-primary" />
                     </div>
                     <div>
                       <h3 className="font-semibold group-hover:text-primary transition-colors">
                         {tool.name}
                       </h3>
                       <div className="flex items-center gap-2 text-sm">
-                        <Star className="w-3 h-3 text-amber-400 fill-amber-400" />
-                        <span className="text-muted-foreground">{tool.rating}</span>
+                        <Badge variant="outline" className="text-xs border-primary/20 text-primary bg-primary/5">
+                            {tool.category}
+                        </Badge>
                       </div>
                     </div>
                   </div>
-                  <span className={`text-xs px-2 py-1 rounded-full ${getStatusColor(tool.status)}`}>
-                    {tool.status}
-                  </span>
+                  {tool.is_trending && (
+                      <Badge variant="secondary" className="bg-orange-500/10 text-orange-400 border-orange-500/20">
+                        <Star className="w-3 h-3 mr-1 fill-orange-400" /> Hot
+                      </Badge>
+                  )}
                 </div>
 
                 {/* Description */}
@@ -310,23 +185,12 @@ export default function AITools() {
                   {tool.description}
                 </p>
 
-                {/* Features */}
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {tool.features.map((feature, index) => (
-                    <span 
-                      key={index}
-                      className="text-xs px-2 py-1 rounded-md bg-surface-elevated text-muted-foreground"
-                    >
-                      {feature}
-                    </span>
-                  ))}
-                </div>
-
                 {/* CTA */}
                 <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                  <Button variant="heroOutline" size="sm" className="w-full gap-2">
-                    Learn More
-                    <ExternalLink className="w-3 h-3" />
+                  <Button variant="heroOutline" size="sm" className="w-full gap-2" asChild>
+                    <a href={tool.url} target="_blank" rel="noopener noreferrer">
+                        Learn More <ExternalLink className="w-3 h-3" />
+                    </a>
                   </Button>
                 </motion.div>
               </motion.div>
@@ -334,7 +198,7 @@ export default function AITools() {
           </motion.div>
 
           {/* Empty State */}
-          {filteredTools.length === 0 && (
+          {!isLoading && filteredTools.length === 0 && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
