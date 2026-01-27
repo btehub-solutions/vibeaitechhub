@@ -8,6 +8,7 @@ import {
   Calendar, Video, Zap, ArrowUpRight, Star
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
 import { PageTransition } from "@/components/PageTransition";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/services/api";
@@ -127,7 +128,12 @@ export default function StudentDashboard() {
               >
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-xl font-semibold">Your Programs</h2>
-                  <Button variant="ghost" size="sm" className="text-primary">
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="text-primary"
+                    onClick={() => window.location.href = '/#modules'}
+                  >
                     View All <ChevronRight className="w-4 h-4 ml-1" />
                   </Button>
                 </div>
@@ -144,6 +150,7 @@ export default function StudentDashboard() {
                         key={module.id}
                         className="p-4 rounded-lg bg-surface-elevated/50 border border-border/50 hover:border-primary/30 transition-colors cursor-pointer"
                         whileHover={{ x: 4 }}
+                        onClick={() => toast.info(`Coming soon: ${module.title}`)}
                       >
                         <div className="flex items-center justify-between mb-3">
                           <h3 className="font-medium">{module.title}</h3>
@@ -195,11 +202,19 @@ export default function StudentDashboard() {
               >
                 <h2 className="text-lg font-semibold mb-4">Quick Actions</h2>
                 <div className="space-y-2">
-                  <Button variant="hero" className="w-full justify-start gap-2">
+                  <Button 
+                    variant="hero" 
+                    className="w-full justify-start gap-2"
+                    onClick={() => window.location.href = '/#modules'}
+                  >
                     <Play className="w-4 h-4" />
                     Start Learning
                   </Button>
-                  <Button variant="heroOutline" className="w-full justify-start gap-2">
+                  <Button 
+                    variant="heroOutline" 
+                    className="w-full justify-start gap-2"
+                    onClick={() => window.location.href = '/#modules'}
+                  >
                     <Star className="w-4 h-4" />
                     Browse Catalog
                   </Button>

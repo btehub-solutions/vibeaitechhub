@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Clock, BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
 import { OptimizedImage } from "@/components/OptimizedImage";
 import modulesVisual from "@/assets/modules-visual.png";
+import { toast } from "sonner";
 
 const modules = [
   {
@@ -204,7 +205,12 @@ export function ModulesSection() {
                       </div>
                       
                       <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                        <Button variant="hero" size="sm" className="w-full group/btn">
+                        <Button 
+                          variant="hero" 
+                          size="sm" 
+                          className="w-full group/btn"
+                          onClick={() => toast.info(`Coming soon: ${module.title}`)}
+                        >
                           Explore Module
                           <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
                         </Button>

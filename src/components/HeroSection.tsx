@@ -95,11 +95,26 @@ export function HeroSection() {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
-            <Button type="button" variant="hero" size="xl" className="group">
+            <Button 
+                type="button" 
+                variant="hero" 
+                size="xl" 
+                className="group"
+                onClick={() => window.location.href = '/signup'}
+            >
               Start Learning
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
-            <Button type="button" variant="heroOutline" size="xl" className="group">
+            <Button 
+                type="button" 
+                variant="heroOutline" 
+                size="xl" 
+                className="group"
+                onClick={() => {
+                    const features = document.getElementById('features');
+                    if (features) features.scrollIntoView({ behavior: 'smooth' });
+                }}
+            >
               <Play className="w-5 h-5" aria-hidden="true" />
               See How It Works
             </Button>

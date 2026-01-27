@@ -9,10 +9,10 @@ import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
 
 const navLinks = [
-  { label: "Modules", href: "#modules" },
-  { label: "Features", href: "#features" },
-  { label: "Community", href: "#testimonials" },
-  { label: "Updates", href: "#news" },
+  { label: "Modules", href: "/#modules" },
+  { label: "Features", href: "/#features" },
+  { label: "Community", href: "/#testimonials" },
+  { label: "Updates", href: "/#news" },
 ];
 
 export function Navbar() {
