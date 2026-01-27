@@ -25,7 +25,12 @@
             "dest": "backend/core/wsgi.py"
         },
         {
-            "handle": "filesystem"
+            "src": "/assets/(.*)",
+            "dest": "/assets/$1"
+        },
+        {
+            "src": "/(.*)\\.(ico|png|jpg|jpeg|svg|css|js)",
+            "dest": "/$1.$2"
         },
         {
             "src": "/(.*)",
