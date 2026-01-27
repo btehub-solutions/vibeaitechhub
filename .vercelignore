@@ -21,7 +21,5 @@ venv/
 coverage/
 .nyc_output/
 
-# Build artifacts already in .gitignore
+# Build artifacts - DO NOT ignore dist/ (Vercel needs it!)
 node_modules/
-dist/
-dist-ssr/
