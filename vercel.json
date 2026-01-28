@@ -4,8 +4,17 @@
   "framework": "vite",
   "rewrites": [
     {
+      "source": "/api/(.*)",
+      "destination": "/nest_backend/api/index.ts"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
-  ]
+  ],
+  "functions": {
+    "nest_backend/api/index.ts": {
+      "includeFiles": "nest_backend/prisma/schema.prisma"
+    }
+  }
 }
