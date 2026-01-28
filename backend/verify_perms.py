@@ -3,7 +3,7 @@ import django
 from django.conf import settings
 
 # Setup Django standalone
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings.dev')
 django.setup()
 
 from rest_framework.test import APIRequestFactory, force_authenticate

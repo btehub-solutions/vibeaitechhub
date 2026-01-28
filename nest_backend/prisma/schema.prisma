@@ -1,0 +1,125 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  STUDENT
+  ADMIN
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  username  String   @unique
+  password  String
+  role      Role     @default(STUDENT)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  enrollments Enrollment[]
+  progress    LessonProgress[]
+}
+
+model Program {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  price       Decimal
+  isPublished Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  modules     Module[]
+  enrollments Enrollment[]
+  events      Event[]
+}
+
+model Module {
+  id          Int      @id @default(autoincrement())
+  programId   Int
+  program     Program  @relation(fields: [programId], references: [id])
+  title       String
+  description String?
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+
+  lessons     Lesson[]
+}
+
+model Lesson {
+  id        Int      @id @default(autoincrement())
+  moduleId  Int
+  module    Module   @relation(fields: [moduleId], references: [id])
+  title     String
+  content   String?
+  videoUrl  String?
+  duration  Int?     // In seconds
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+
+  progress  LessonProgress[]
+}
+
+model LessonProgress {
+  id          Int       @id @default(autoincrement())
+  userId      Int
+  user        User      @relation(fields: [userId], references: [id])
+  lessonId    Int
+  lesson      Lesson    @relation(fields: [lessonId], references: [id])
+  isCompleted Boolean   @default(false)
+  completedAt DateTime?
+
+  @@unique([userId, lessonId])
+}
+
+model Event {
+  id          Int      @id @default(autoincrement())
+  programId   Int?
+  program     Program? @relation(fields: [programId], references: [id])
+  title       String
+  description String?
+  startTime   DateTime
+  endTime     DateTime
+  createdAt   DateTime @default(now())
+
+  meetingLink MeetingLink?
+}
+
+model MeetingLink {
+  id       Int    @id @default(autoincrement())
+  eventId  Int    @unique
+  event    Event  @relation(fields: [eventId], references: [id])
+  url      String
+  platform String @default("ZOOM")
+}
+
+model Enrollment {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  user       User     @relation(fields: [userId], references: [id])
+  programId  Int
+  program    Program  @relation(fields: [programId], references: [id])
+  enrolledAt DateTime @default(now())
+  isActive   Boolean  @default(true)
+
+  @@unique([userId, programId])
+}
+
+model AITool {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String
+  url         String
+  category    String
+  isTrending  Boolean  @default(false)
+  iconUrl     String?
+  createdAt   DateTime @default(now())
+}
