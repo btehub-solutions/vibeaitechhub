@@ -6,21 +6,21 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = "postgresql://user:password@localhost:5432/test?schema=public"
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
-enum Role {
-  STUDENT
-  ADMIN
-}
+// enum Role {
+//   STUDENT
+//   ADMIN
+// }
 
 model User {
   id        Int      @id @default(autoincrement())
   email     String   @unique
   username  String   @unique
   password  String
-  role      Role     @default(STUDENT)
+  role      String     @default("STUDENT")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
