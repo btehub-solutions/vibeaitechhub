@@ -6,7 +6,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "/nest_backend/api/index.ts"
+      "destination": "/api/index.ts"
     },
     {
       "source": "/(.*)",
@@ -14,7 +14,7 @@
     }
   ],
   "functions": {
-    "nest_backend/api/index.ts": {
+    "api/index.ts": {
       "memory": 1024,
       "maxDuration": 10,
       "includeFiles": "nest_backend/prisma/schema.prisma"
