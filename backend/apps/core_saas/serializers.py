@@ -10,13 +10,23 @@ class AIToolSerializer(serializers.ModelSerializer):
 class LessonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson
-        fields = ['id', 'title', 'content', 'video_url', 'duration', 'order']
+        fields = ['id', 'module', 'title', 'content', 'video_url', 'duration', 'order']
 
 class ModuleSerializer(serializers.ModelSerializer):
     lessons = LessonSerializer(many=True, read_only=True)
     class Meta:
         model = Module
-        fields = ['id', 'title', 'description', 'order', 'lessons']
+        fields = ['id', 'program', 'title', 'description', 'order', 'lessons']
+
+class EventSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Event
+        fields = '__all__'
+
+class MeetingLinkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MeetingLink
+        fields = '__all__'
 
 class ProgramSerializer(serializers.ModelSerializer):
     modules = ModuleSerializer(many=True, read_only=True)
