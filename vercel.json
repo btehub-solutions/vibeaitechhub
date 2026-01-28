@@ -1,10 +1,11 @@
 {
-  "buildCommand": "npm run build",
+  "buildCommand": "npm run build && cd nest_backend && npm install && npx prisma generate",
   "outputDirectory": "dist",
   "framework": "vite",
+  "installCommand": "npm install && cd nest_backend && npm install",
   "rewrites": [
     {
-      "source": "/api/(.*)",
+      "source": "/api/:path*",
       "destination": "/nest_backend/api/index.ts"
     },
     {
@@ -14,7 +15,32 @@
   ],
   "functions": {
     "nest_backend/api/index.ts": {
+      "memory": 1024,
+      "maxDuration": 10,
       "includeFiles": "nest_backend/prisma/schema.prisma"
     }
+  },
+  "headers": [
+    {
+      "source": "/api/:path*",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, POST, PUT, DELETE, PATCH, OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "X-Requested-With, Content-Type, Authorization"
+        }
+      ]
+    }
+  ],
+  "env": {
+    "DATABASE_URL": "@database_url",
+    "JWT_SECRET": "@jwt_secret"
   }
 }

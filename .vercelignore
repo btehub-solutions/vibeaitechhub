@@ -1,16 +1,5 @@
-# Ignore backend folder - Django should be deployed separately
-backend/
-requirements.txt
-
-# Python files
-*.py
-*.pyc
-__pycache__/
-*.pyo
-*.pyd
-.Python
-env/
-venv/
+# Nest.js backend (deploy separately)
+nest_backend/
 
 # Development files
 .env
@@ -21,5 +10,5 @@ venv/
 coverage/
 .nyc_output/
 
-# Build artifacts - DO NOT ignore dist/ (Vercel needs it!)
+# Dependencies
 node_modules/
