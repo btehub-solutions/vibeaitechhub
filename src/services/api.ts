@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create api instance
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://localhost:3000/api' : '/api'),
+  baseURL: process.env.NEXT_PUBLIC_API_URL || '/api',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -10,10 +10,12 @@ const api = axios.create({
 
 // Add interceptor to inject Token
 api.interceptors.request.use(async (config) => {
-  const token = localStorage.getItem('access_token');
-  
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+  if (typeof window !== 'undefined') {
+    const token = localStorage.getItem('access_token');
+    
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
   }
   
   return config;
@@ -27,9 +29,10 @@ api.interceptors.response.use((response) => {
 }, (error) => {
   // Handle 401 (Unauthorized)
   if (error.response?.status === 401) {
-    // Optional: Clear token and redirect if needed
-    // localStorage.removeItem('access_token');
-    // window.location.href = '/login';
+    if (typeof window !== 'undefined') {
+        // localStorage.removeItem('access_token');
+        // window.location.href = '/login';
+    }
   }
   return Promise.reject(error);
 });

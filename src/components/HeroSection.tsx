@@ -4,10 +4,11 @@ import { ArrowRight, Play } from "lucide-react";
 import { useRef, useState, useEffect } from "react";
 import { PageTransition } from "@/components/PageTransition";
 
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 
 export function HeroSection() {
-  const navigate = useNavigate();
+  const router = useRouter();
+  const navigate = router.push;
   const ref = useRef(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [videoLoaded, setVideoLoaded] = useState(false);

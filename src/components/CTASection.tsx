@@ -5,10 +5,11 @@ import { ArrowRight } from "lucide-react";
 import { OptimizedImage } from "@/components/OptimizedImage";
 import ctaVisual from "@/assets/cta-visual.png";
 
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 
 export function CTASection() {
-  const navigate = useNavigate();
+  const router = useRouter();
+  const navigate = router.push;
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 

@@ -1,0 +1,7 @@
+# VibeAI Learning Hub
+
+This is the VibeAI Learning Hub project.
+
+## Deployment Trigger
+
+Last updated: 2026-01-27

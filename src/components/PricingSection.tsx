@@ -79,10 +79,11 @@ const itemVariants: Variants = {
   }
 };
 
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 
 export function PricingSection() {
-  const navigate = useNavigate();
+  const router = useRouter();
+  const navigate = router.push;
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 

@@ -1,0 +1,23 @@
+# Exclude backend source files but keep API handler and Prisma schema
+nest_backend/src/
+nest_backend/test/
+nest_backend/dist/
+nest_backend/node_modules/
+nest_backend/.env
+nest_backend/.gitignore
+nest_backend/.prettierrc
+nest_backend/eslint.config.mjs
+nest_backend/nest-cli.json
+nest_backend/db.json
+
+# Development files
+.env
+.env.local
+.env.*.local
+
+# Testing
+coverage/
+.nyc_output/
+
+# Dependencies (root level already installed)
+# node_modules/ - Don't ignore, Vercel needs this

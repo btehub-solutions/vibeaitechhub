@@ -1,11 +1,10 @@
-
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Menu, X, LogOut, User } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation"; // Changed from react-router-dom
 import { useAuth } from "@/contexts/AuthContext";
-import { supabase } from "@/lib/supabase";
+// import { supabase } from "@/lib/supabase"; // Use authContext logout instead
 import { toast } from "sonner";
 
 const navLinks = [
@@ -18,8 +17,9 @@ const navLinks = [
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { user } = useAuth();
-  const navigate = useNavigate();
+  const { user, logout } = useAuth(); // Use logout from context
+  const router = useRouter(); // Changed from useNavigate
+  const navigate = router.push; // Map navigate to router.push for minimal changes
 
   useEffect(() => {
     const handleScroll = () => {
@@ -30,9 +30,10 @@ export function Navbar() {
   }, []);
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
+    // await supabase.auth.signOut(); // Removed direct supabase call
+    logout(); // Use context logout
     toast.success("Logged out successfully");
-    navigate("/");
+    // navigate("/"); // handled by logout() in context usually, or keep here
   };
 
   return (

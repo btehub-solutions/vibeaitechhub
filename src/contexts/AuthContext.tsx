@@ -1,5 +1,8 @@
+"use client";
+
 import { createContext, useContext, useEffect, useState } from "react";
 import { authService, User } from "@/services/auth.service";
+import { useRouter } from "next/navigation";
 
 interface AuthContextType {
   user: User | null;
@@ -22,8 +25,11 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   const initAuth = async () => {
+    if (typeof window === 'undefined') return;
+    
     const token = localStorage.getItem('access_token');
     if (token) {
       try {
@@ -56,7 +62,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     authService.logout();
     setUser(null);
     localStorage.removeItem('access_token');
-    window.location.href = '/login';
+    router.push('/login');
   };
 
   const value = {

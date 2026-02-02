@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
+import { StaticImageData } from "next/image";
 
 interface OptimizedImageProps {
-  src: string;
+  src: string | StaticImageData;
   alt: string;
   className?: string;
   style?: React.CSSProperties;
@@ -19,6 +20,8 @@ export function OptimizedImage({
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInView, setIsInView] = useState(priority);
   const imgRef = useRef<HTMLImageElement>(null);
+  
+  const imageSrc = typeof src === 'string' ? src : src.src;
 
   useEffect(() => {
     if (priority) {
@@ -45,13 +48,13 @@ export function OptimizedImage({
 
   // Handle error state gracefully
   const handleError = () => {
-    console.warn(`Failed to load image: ${src}`);
+    console.warn(`Failed to load image: ${imageSrc}`);
   };
 
   return (
     <motion.img
       ref={imgRef}
-      src={isInView ? src : undefined}
+      src={isInView ? imageSrc : undefined}
       alt={alt}
       className={className}
       style={style}
