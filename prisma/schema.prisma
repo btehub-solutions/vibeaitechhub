@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite" // Change to "postgresql" for Vercel
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
